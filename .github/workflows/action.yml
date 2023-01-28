@@ -3,24 +3,39 @@ name: update another repo
 on: [push]
 
 jobs:
-  update-repo:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Update another repo
-        uses: actions/checkout@v3
-        with:
-          repository: shyamayadav154/argo
-          ref: main
-          token: ${{ secrets.TOKEN }}
-          
+    replicate-file:
+        runs-on: ubuntu-latest
+        name: Replicate File
 
-      - name: Update another repo
-        run: |
-          ls
-          date > generated.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
-          git push  
+        steps:
+        - name: Checkout Project A
+          uses: actions/checkout@v3
+          with:
+            path: ./repo-update
+
+        - name: Checkout Project B
+          uses: actions/checkout@v3
+          with: 
+            repository: tomassirio/projectB
+            token: ${{ secrets.ACTIONS_TOKEN }}
+            path: ./projectB
+
+        - name: Copy/Create file
+          run: |
+            FILE=./repo-update/file
+            if [ -f "$FILE" ]; then
+              echo "Copying $FILE"
+              cp -R ./repo-update/file ./projectB
+            else 
+              echo "Creating $FILE"
+              touch ./projectB/file
+            fi
+
+        - name: Push Project B
+          run: |
+            cd ./projectB
+            git add .
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git commit -am "File Replicated from Project A"
+            git push
