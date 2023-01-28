@@ -32,7 +32,7 @@ jobs:
             cd k8
             ls
             cat frontend.yml
-            sed -i "s|image: .*|image: $GITHUB_SHA|g" deployment.yml
+            sed -i "s|image: .*|image: $GITHUB_SHA|g" frontend.yml
             cat frontend.yml
             touch test.txt
             git status
