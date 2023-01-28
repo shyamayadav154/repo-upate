@@ -16,24 +16,24 @@ jobs:
         - name: Checkout Project B
           uses: actions/checkout@v3
           with: 
-            repository: tomassirio/projectB
-            token: ${{ secrets.ACTIONS_TOKEN }}
-            path: ./projectB
+            repository: tomassirio/argo
+            token: ${{ secrets.TOKEN }}
+            path: ./argo
 
         - name: Copy/Create file
           run: |
             FILE=./repo-update/file
             if [ -f "$FILE" ]; then
               echo "Copying $FILE"
-              cp -R ./repo-update/file ./projectB
+              cp -R ./repo-update/file ./argo
             else 
               echo "Creating $FILE"
-              touch ./projectB/file
+              touch ./argo/file
             fi
 
         - name: Push Project B
           run: |
-            cd ./projectB
+            cd ./argo
             git add .
             git config user.name github-actions
             git config user.email github-actions@github.com
