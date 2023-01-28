@@ -31,7 +31,9 @@ jobs:
             cd ./argo
             cd k8
             ls
-            sed -i 's/image: shyamaydav154\/mevfinal-main:.*/image: shyamaydav154\/mevfinal-main:$GITHUB_SHA/' frontend.yml
+            cat frontend.yml
+            sed -i 's/image: shyamaydav154\/mevfinal-main:.*/image: shyamaydav154\/mevfinal-main:newTag/' frontend.yml
+            cat frontend.yml
             git status
             git add ..
             git config user.name github-actions
