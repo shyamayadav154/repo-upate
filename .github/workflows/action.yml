@@ -23,7 +23,13 @@ jobs:
             ref: main
             persist-credentials: true
 
-        
+        - name: Docker meta
+          uses: docker/metadata-action@v3
+          id: meta
+          with:
+            images: shyamayadav154/mevfinal
+            tags: |
+              type=sha
 
         - name: Push Project argo
           run: |
@@ -32,7 +38,7 @@ jobs:
             cd k8
             ls
             cat frontend.yml
-            sed -i "s|image: .*|image: $GITHUB_SHA|g" frontend.yml
+            sed -i "s|image: .*|image: ${{steps.meta.outputs.tags}}|g" frontend.yml
             cat frontend.yml
             touch test.txt
             git status
