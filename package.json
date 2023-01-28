@@ -1,0 +1,30 @@
+{
+  "name": "repo-upate",
+  "version": "1.0.0",
+  "description": "repo for tesing github action update another repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shyamayadav154/repo-upate.git"
+  },
+  "author": "Shyamanand Yadav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shyamayadav154/repo-upate/issues"
+  },
+  "homepage": "https://github.com/shyamayadav154/repo-upate#readme",
+  "devDependencies": {
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
