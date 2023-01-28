@@ -3,15 +3,12 @@ name: update another repo
 on: [push]
 
 jobs:
-    replicate-file:
+    update-argo-repo:
         runs-on: ubuntu-latest
         name: Replicate File
 
         steps:
-        - name: Checkout Project repo-update
-          uses: actions/checkout@v3
-          with:
-            persist-credentials: false
+        
 
 
         - name: Checkout Project B
@@ -36,11 +33,7 @@ jobs:
             echo $GITHUB_SHA
             cd ./argo
             cd k8
-            ls
-            cat frontend.yml
             sed -i "s|image: .*|image: ${{steps.meta.outputs.tags}}|g" frontend.yml
-            cat frontend.yml
-            touch test.txt
             git status
             git add ..
             git config user.name github-actions
