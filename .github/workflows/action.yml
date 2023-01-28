@@ -32,7 +32,7 @@ jobs:
               touch ./argo/file
             fi
 
-        - name: Push Project B
+        - name: Push Project argo
           run: |
             cd ./argo
             git add .
