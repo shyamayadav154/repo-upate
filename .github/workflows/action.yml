@@ -32,7 +32,7 @@ jobs:
             echo $GITHUB_SHA
             cd ./argo
             cd k8
-            sed -i 's/image: shyamaydav154\/mevfinal-main:.*/image: shyamaydav154\/mevfinal-main:newtag2/' deployment.yml
+            sed -i 's/image: shyamaydav154\/mevfinal-main:.*/image: shyamaydav154\/mevfinal-main:$GITHUB_SHA/' frontend.yml
             git add .
             git config user.name github-actions
             git config user.email github-actions@github.com
