@@ -8,7 +8,7 @@ jobs:
         name: Replicate File
 
         steps:
-        - name: Checkout Project A
+        - name: Checkout Project repo-update
           uses: actions/checkout@v3
           with:
             path: ./repo-update
