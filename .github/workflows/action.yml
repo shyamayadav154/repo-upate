@@ -10,7 +10,7 @@ jobs:
       - name: Update another repo
         uses: actions/checkout@v2
         with:
-          repository: shyamayadav154/repo-upate
+          repository: shyamayadav154/argo
           ref: main
 
       - name: Update another repo
