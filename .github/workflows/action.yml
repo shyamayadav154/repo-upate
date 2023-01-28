@@ -16,7 +16,7 @@ jobs:
         - name: Checkout Project B
           uses: actions/checkout@v3
           with: 
-            repository: tomassirio/argo
+            repository: shyamayadav154/argo
             token: ${{ secrets.TOKEN }}
             path: ./argo
             ref: main
