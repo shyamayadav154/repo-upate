@@ -25,20 +25,14 @@ jobs:
             ref: main
             persist-credentials: true
 
-        - name: Copy/Create file
-          run: |
-            FILE=./repo-update/file
-            if [ -f "$FILE" ]; then
-              echo "Copying $FILE"
-              cp -R ./repo-update/file ./argo
-            else 
-              echo "Creating $FILE"
-              touch ./argo/file
-            fi
+        
 
         - name: Push Project argo
           run: |
+            echo $GITHUB_SHA
             cd ./argo
+            cd k8
+            sed -i 's/image: shyamaydav154\/mevfinal-main:.*/image: shyamaydav154\/mevfinal-main:newtag2/' deployment.yml
             git add .
             git config user.name github-actions
             git config user.email github-actions@github.com
