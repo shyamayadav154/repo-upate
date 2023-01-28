@@ -11,8 +11,6 @@ jobs:
         - name: Checkout Project repo-update
           uses: actions/checkout@v3
           with:
-            path: ./repo-update
-            ref: main
             persist-credentials: false
 
 
@@ -34,7 +32,8 @@ jobs:
             cd k8
             ls
             sed -i 's/image: shyamaydav154\/mevfinal-main:.*/image: shyamaydav154\/mevfinal-main:$GITHUB_SHA/' frontend.yml
-            git add .
+            git status
+            git add ..
             git config user.name github-actions
             git config user.email github-actions@github.com
             git commit -am "File Replicated from Project A"
