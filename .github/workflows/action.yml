@@ -30,7 +30,7 @@ jobs:
             echo $GITHUB_SHA
             cd ./argo
             cd k8
-            sed -i "s|image: .*|image: shyamayadav154/mevfinal-main|g" frontend.yml
+            sed -i "s|image: .*|image: shyamayadav154/mevfinal:dev|g" frontend.yml
             git status
             git add ..
             git config user.name github-actions
