@@ -19,6 +19,7 @@ jobs:
             repository: tomassirio/argo
             token: ${{ secrets.TOKEN }}
             path: ./argo
+            ref: main
 
         - name: Copy/Create file
           run: |
