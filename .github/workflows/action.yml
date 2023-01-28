@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: shyamayadav154/repo-update
+          ref: main
 
       - name: Update another repo
         run: |
