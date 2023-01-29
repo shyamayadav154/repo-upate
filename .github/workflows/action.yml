@@ -1,42 +1,92 @@
-name: update CD repo
+name: Deploy to GKE
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-    update-argo-repo:
-        runs-on: ubuntu-latest
-        name: update argo repo for CD
+  deploy-to-GKE:
+    name:  Deploy to GKE
+    runs-on: ubuntu-latest
+    environment: production
 
-        steps:
-        - name: Checkout Project B
-          uses: actions/checkout@v3
-          with: 
-            repository: shyamayadav154/argo
-            token: ${{ secrets.TOKEN }}
-            path: ./argo
-            ref: main
-            persist-credentials: true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
-        - name: Docker meta
-          uses: docker/metadata-action@v4
-          id: meta
-          with:
-            images: shyamayadav154/mevfinal
-            tags: |
-              type=sha
+    # Setup gcloud CLI
+    - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: ${{ secrets.GKE_PROJECT }}  
 
-        - name: Push Project argo
-          run: |
-            echo $GITHUB_SHA
-            cd ./argo
-            cd k8
-            sed -i "s|image: .*|image: shyamayadav154/mevfinal:dev|g" frontend.yml
-            git status
-            git add ..
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git commit -am "File Replicated from Project A"
-            git push
+    # Configure Docker to use the gcloud command-line tool as a credential
+    # helper for authentication
+    - run: |-
+        gcloud --quiet auth configure-docker    
+
+
+
+    # Get the GKE credentials so we can deploy to the cluster
+    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+      with:
+        cluster_name: cluster-test
+        location: asia-south2-a
+        credentials: ${{ secrets.GKE_SA_KEY }}  
+
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy
+      run: |-
+        kubectl set image deployment/mevvit-deployment-frontend mevvit-frontend=shyamayadav154/mevfinal:sha-9ec3ef1        
+
+
+
+
+
+
+
+
+# name: update CD repo
+
+# on: [push]
+
+
+# jobs:
+#     update-argo-repo:
+#         runs-on: ubuntu-latest
+#         name: update argo repo for CD
+
+#         steps:
+#         - name: Checkout Project B
+#           uses: actions/checkout@v3
+#           with: 
+#             repository: shyamayadav154/argo
+#             token: ${{ secrets.TOKEN }}
+#             path: ./argo
+#             ref: main
+#             persist-credentials: true
+
+#         - name: Docker meta
+#           uses: docker/metadata-action@v4
+#           id: meta
+#           with:
+#             images: shyamayadav154/mevfinal
+#             tags: |
+#               type=sha
+
+#         - name: Push Project argo
+#           run: |
+#             echo $GITHUB_SHA
+#             cd ./argo
+#             cd k8
+#             sed -i "s|image: .*|image: ${{steps.meta.outputs.tags}}|g" frontend.yml
+#             git status
+#             git add ..
+#             git config user.name github-actions
+#             git config user.email github-actions@github.com
+#             git commit -am "frontend image tag  update because to ${{steps.meta.outputs.tags}}"
+#             git push
 
 
 # ${{steps.meta.outputs.tags}}            
