@@ -38,7 +38,7 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        kubectl set image deployment/mevvit-deployment-frontend mevvit-frontend=shyamayadav154/mevfinal:sha-9ec3ef1        
+        kubectl set image deployment/mevvit-deployment-frontend mevvit-frontend=shyamayadav154/mevfinal:sha-9ec3ef1 -n mevvit       
 
 
 
